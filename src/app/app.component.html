@@ -1,0 +1,37 @@
+<!-- main app container -->
+<div class="container">
+	<div class="row">
+		<div class="col-md-8 offset-md-2">
+			<h3>Welcome to Mailgun NodeJS API demo</h3>
+			<form name="mailForm" (ngSubmit)="f.form.valid && submit()" #f="ngForm" novalidate>
+				<div class="form-group">
+					<label for="Input Email IDs">Input email IDs here</label>
+					<textarea class="form-control" id="emailIDsInput" name="emailIDsInput"
+					[(ngModel)]="model.emailIDsInput" #emailIDsInput="ngModel" 
+					[ngClass]="{ 'is-invalid': f.submitted && emailIDsInput.invalid }" required
+					pattern="^(\s?[^\s,]+@[^\s,]+\.[^\s,]+\s?,)*(\s?[^\s,]+@[^\s,]+\.[^\s,]+)$"
+					rows="10"></textarea>
+					<div *ngIf="f.submitted && emailIDsInput.invalid" class="invalid-feedback">
+						<div *ngIf="emailIDsInput.errors.required">Email IDs are required</div>
+					</div>
+					
+					<div *ngIf="emailIDsInput.value && emailIDsInput.value.length > 0 && emailIDsInput.invalid" class="invalid-feedback">
+						Enter Valid Email IDs separated by comma
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="Bulk email send output">Bulk email send output</label>
+					<textarea class="form-control" id="emailIDsOutput" name="emailIDsOutput"
+					[(ngModel)]="model.emailIDsOutput" #emailIDsOutput="ngModel" 
+					rows="5" readonly></textarea>
+				</div>
+
+				<div class="form-group">
+					<button class="btn btn-primary">Send Mails</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
