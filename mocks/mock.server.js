@@ -52,7 +52,7 @@ app.post('/sendMails', function(req, res) {
     mailgun.messages().send(mailObj, (error, body) => {
         // if error, send error and log it
         if (error) {
-            res.send('error', { error : error});
+            res.send({ error : error});
             console.log("got an error: ", error);
         }
         // success, send success and log it
