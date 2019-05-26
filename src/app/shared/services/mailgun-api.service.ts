@@ -35,5 +35,6 @@ export class MailgunAPIService {
     return this.http.post<any>(`${this.baseUrl}/sendMails`, data.split('\n')).pipe(
       retry(this.numRetries), // Retry thrice before ending request
       catchError(err => this.handleError(err))
-    )};
+    );
+  }
 }
