@@ -11,6 +11,7 @@ export class MailgunAPIService {
   port = '3456';
   baseUrl = `http://localhost:${this.port}`;
   numRetries = 3;
+  errorOutput;
 
   constructor(private http: HttpClient) {}
 
@@ -23,12 +24,14 @@ export class MailgunAPIService {
       // server-side error
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
+    this.errorOutput.emailIDsOutput = errorMessage;
     window.alert(errorMessage);
     return throwError(errorMessage);
   }
 
-  sendMails(data): Observable<any> {
+  sendMails(data, model): Observable<any> {
     console.log('Request payload', data.split('\n'));
+    this.errorOutput = model;
     return this.http.post<any>(`${this.baseUrl}/sendMails`, data.split('\n')).pipe(
       retry(this.numRetries), // Retry thrice before ending request
       catchError(err => this.handleError(err))

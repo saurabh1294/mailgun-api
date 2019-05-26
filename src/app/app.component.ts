@@ -17,7 +17,7 @@ export class MailgunAPIComponent implements OnInit {
   }
 
   submit() {
-    this.mailgunAPIService.sendMails(this.model.emailIDsInput).subscribe(response => {
+    this.mailgunAPIService.sendMails(this.model.emailIDsInput, this.model).subscribe(response => {
       console.log(response, 'this is the response');
       this.model.emailIDsOutput = JSON.stringify(response);
     });
