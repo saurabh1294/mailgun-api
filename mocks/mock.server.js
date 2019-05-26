@@ -5,17 +5,13 @@ const cors = require("cors");
 
 
 
-var API_KEY = 'YOUR-MAILGUN-API-KEY';
+var MAILGUN_API_KEY = 'YOUR-MAILGUN-API-KEY';
+var SENDGRID_API_KEY = 'YOUR-SENDGRID-API-KEY';
 var DOMAIN = 'YOUR-DOMAIN-NAME';
-var mailgun = require('mailgun-js')({apiKey: API_KEY, domain: DOMAIN});
+var mailgun = require('mailgun-js')({apiKey: MAILGUN_API_KEY, domain: DOMAIN});
 
-const data = {
-  from: 'Excited User <me@samples.mailgun.org>',
-  to: 'saurabh.gattani@gmail.com, vaishalir23@gmail.com',
-  subject: 'Hello',
-  text: 'Testing some Mailgun awesomeness!'
-};
-
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(SENDGRID_API_KEY);
 
 
 var originsWhitelist = [
@@ -52,8 +48,19 @@ app.post('/sendMails', function(req, res) {
     mailgun.messages().send(mailObj, (error, body) => {
         // if error, send error and log it
         if (error) {
-            res.send({ error : error});
-            console.log("got an error: ", error);
+            console.log("got an error sending mail via Mailgun: ", error);
+            console.log("trying to send via sendgrid now..");
+
+            const msg = {
+                to: req.body,
+                from: 'noreply@golibrary.co',
+                subject: 'Test mail via sendgrid Nodejs API',
+                text: 'Testing sendgrid mail API',
+                html: '<strong>An easy to do anywhere mail API, even with Node.js</strong>'
+            };
+            sgMail.send(msg);
+            console.log("Send mail transaction via Sendgrid initiated.");
+            res.send({ error : `${error} Mailgun API failed. Sending via Sendgrid now.`});
         }
         // success, send success and log it
         else {

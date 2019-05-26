@@ -63,3 +63,11 @@ yarn lint:fix
 
 yarn lint
 
+## Future improvements
+Add CC and BCC support in the email forms.
+
+Add rich text and media support.
+
+Add a generic error handling component which will handle and redirect 
+to error pages on error messages.
+
