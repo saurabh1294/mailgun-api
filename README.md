@@ -69,5 +69,5 @@ Add CC and BCC support in the email forms.
 Add rich text and media support.
 
 Add a generic error handling component which will handle and redirect 
-to error pages on error messages.
+to error pages on different errors.
 
